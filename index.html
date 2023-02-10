@@ -1,0 +1,103 @@
+<?php 
+    require("kosar.php")
+    for ($i=0; $i < ; $i++) { 
+        # code...
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kosárlabda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="website icon" type="png" href="images/basketball.png">
+    <script src="javascript.js"></script>
+</head>
+<body onload="add(), hometeamadd(), awayteamadd()" style="background-image: url(images/wallpaper.png);">
+    <img style="width: 50px; display: inline-block; box-sizing: border-box; float: right;" src="images/dev.png" onmouseover="informationon()" onmouseleave="informationoff()" alt="">
+    <div id="information">
+        <h2 class="infotext">Fejlesztők:</h2>
+        <h2 class="infotext">Fellner Milán</h2>
+        <h2 class="infotext">Németh Csaba Bence</h2>
+    </div>
+    <div id="main">
+        <h1>Kosárlabda mérkőzés jegyzőkönyv</h1>
+        <div id="h-elvalaszto"></div>
+        <div id="home">
+            <select id="home-team" onchange="hometeamadd()">
+            </select>
+            <div class="home-players">
+                <div class="players-box" style="float: left; margin-left: -1px;">
+                    <div id="homesubtitutes"></div>
+                </div>
+                <button class="team-change">>></button>
+                <button class="team-change"><<</button>
+                <div class="players-box" style="float: right;">
+                    <div id="homeplayers"></div> 
+                </div>
+            </div>
+            <div class="points">
+                <label for="home-point" style="font-size: 30px;">Point:</label>
+                <select name="home-point" id="home-point" >
+                    <option value="1">1 point</option>
+                    <option value="2">2 point</option>
+                    <option value="3">3 point</option>
+                </select><br>
+                <button class="point-buttons" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
+                <button class="point-buttons" onclick="homepointadd()" id="plus-homepoint" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
+            </div>
+        </div>
+        <div id="away">
+            <select id="away-team" onchange="awayteamadd()">
+            </select>
+            <div class="home-players">
+                <div class="players-box" id="players-box" style="float: left;">
+                    <div id="awaysubtitutes"></div>
+                </div>
+                <button class="team-change">>></button>
+                <button class="team-change"><<</button>
+                <div class="players-box" style="float: right;">
+                    <div id="awayplayers"></div>
+                </div>
+            </div>
+            <form action="#" method="post">
+            <div class="points">
+                <label for="awaypoint" style="font-size: 30px;">Point:</label>
+                <select name="Awaypoint" id="Awaypoint">
+                    <option value="1">1 point</option>
+                    <option value="2">2 point</option>
+                    <option value="3">3 point</option>
+                </select><br>
+                <button class="point-buttons" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
+                <button class="point-buttons" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
+            </div>
+            </form>
+        </div>
+        <div class="events">
+
+        </div>
+    </div>
+    <div id="second-main">
+        <div id="searchproperties">
+            <label for="helyszin">Choose a court:</label>
+            <select name="referee" id="referee" >
+                <option value="">Budapest Basketball Court</option>
+                <option value="">Győr Basketball Court</option>
+                <option value="">Pécs Basketball Court</option>
+                <option value="">Veresegyház Basketball Court</option>
+            </select><br>
+            <label for="date">Choose a date:</label>
+            <input type="date" name="date" id="date"><br>
+            <label for="referee">Choose a referee:</label>
+            <select name="referee" id="referee" >
+                <option value="">Kalamár Rajmund</option>
+                <option value="">Dr.Hetési Ferenc</option>
+            </select><br>
+            <button class="second-buttons" id="start_button" onclick="millisec()">Start</button><br>
+            <button class="second-buttons" id="stop_button">Stop</button><br>
+        </div>
+    </div>
+</body>
+</html>

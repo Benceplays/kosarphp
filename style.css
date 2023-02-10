@@ -1,0 +1,158 @@
+body{
+    font-weight: bold;
+}
+::-webkit-scrollbar {
+    color: #f58051;
+}
+#main{
+    border-radius: 20px;
+    width: 60%;
+    min-height: 1000px;
+    margin-left: 5.5%;
+    margin-top: 5%;
+    display: inline-block;
+    box-sizing: border-box;
+    color: white;
+    text-align: center;
+    background-color: #f58051;
+}
+#second-main{
+    width: 20%;
+    border-radius: 20px;
+    min-height: 1080px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5%;
+    display: inline-block;
+    box-sizing: border-box;
+    float: right;
+    color: white;
+    font-weight: bold;
+    background-color: #f58051;
+}
+.second-buttons{
+    color: #303030;
+    border: 2px solid #303030;
+    border-radius: 5px;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 5%;
+}
+.second-buttons:hover{
+    color: white;
+    background-color: #f58051;
+    border: 2px solid white;
+    cursor: pointer;
+    animation: pulsate 1s;
+}
+@keyframes pulsate {
+    0%{
+        box-shadow:
+        0 0 25px #000000,
+        0 0 50px #000000;
+    }
+}
+.point-buttons:hover{
+    cursor: pointer;
+    animation: pulsate 1s;
+}
+#searchproperties{
+    margin-top: 5%;
+    text-align: center;
+}
+input{
+    color: #303030;
+    border: 2px solid #303030;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-top: 2.5%;
+}
+input:active{
+    border: 2px solid #303030;
+}
+#h-elvalaszto{
+    width: 100%;
+    min-height: 2px;
+    max-height: 2px;
+    background-color: #303030;
+}
+#home{
+    float: left;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    height: 680px;
+    border-right: 2px solid #303030;
+}
+#away{
+    float: right;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    height: 720px;
+}
+select{
+    color: #303030;
+    border: 2px solid #303030;
+    font-size: 25px;
+    margin-top: 5%;
+    text-align: center;
+}
+select:active{
+    color: #303030;
+    border: 2px solid #303030;
+}
+.home-players{
+    min-height: 200px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-top: 5%;
+    display: block;
+}
+.players-box{
+    width: 40%;
+    border: 2px solid #303030;
+    min-height: 200px;
+    margin-top: 2.5%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.team-change{
+    border: 2px solid #303030;
+    color: #303030;
+    font-size: 30px;
+    margin-top: 15%;
+}
+.team-change:hover{
+        cursor: pointer;
+        animation: pulsate 1s;
+}
+.points{
+    margin-top: 5%;
+}
+.events{
+    border: 2px solid #303030;
+    width: 90%;
+    min-height: 300px;
+    margin-top: 60%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+#information{
+    width: 30%;
+    min-height: 150px;
+    border: 2px solid white;
+    border-radius: 20px;
+    background-color: red;
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    z-index: 5;
+    display: none;
+}
+.infotext{
+    text-align: center;
+}
