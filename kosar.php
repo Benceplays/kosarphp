@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $csapatok = array(
         "ALBA"=> "Arconic-Alba Fehérvár",
         "PAKS"=> "Atomerőmű SE",
@@ -219,6 +221,8 @@ $játékosok = array(
    array('ZTE',27, 'SZALAY Domonkos',2005,2,190,85),
    array('ZTE',41, 'CSUTI Kornél',2004,5,203,95)  );            
     
+
+   
  if ( isset($_POST["csapatok"]) ) {   
     $s = "";
     foreach($csapatok as $key => $value) { 
