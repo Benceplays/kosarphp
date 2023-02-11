@@ -219,25 +219,10 @@ $játékosok = array(
    array('ZTE',21, 'OSTOJIC Danilo',1996,5,203,100),
    array('ZTE',22, 'ZSÍROS Péter',1994,4,200,100),
    array('ZTE',27, 'SZALAY Domonkos',2005,2,190,85),
-   array('ZTE',41, 'CSUTI Kornél',2004,5,203,95)  );            
-    
-
+   array('ZTE',41, 'CSUTI Kornél',2004,5,203,95)  );   
    
- if ( isset($_POST["csapatok"]) ) {   
-    $s = "";
-    foreach($csapatok as $key => $value) { 
-       $s .= sprintf("{\"ID_CSAPAT\":\"%s\", \"CSAPAT\":\"%s\"},",$key, $value );
-    } 
-    $s = "[".substr($s, 0, -1)."]";
-    header('Content-Type: application/json; charset=utf-8');
-    echo ($s);
- }
+   session_start();
 
-
-if ( isset($_POST["ID_CSAPAT"]) and isset($csapatok[$_POST["ID_CSAPAT"]]) )
-{  
-
-   
-}
-
+   $_SESSION['csapatok'] = $csapatok;
+   $_SESSION['jatekosok'] = $játékosok;
 ?>
