@@ -18,8 +18,8 @@ $csapatok = $_SESSION['csapatok'];
         <div>
         <div class="indexmain">
             <div id="home">
-                <p style="text-align: center;">Kérlek válassz csapatot!</p>
-                    <select style="margin-left: 1%;" id="hometeam" name="hometeam">
+                <p style="text-align: center;">Kérlek válassz csapatot! (Hazai)</p>
+                    <select style="margin-left: 20%;" id="hometeam" name="hometeam">
                     <?php 
                         foreach($csapatok as $id=>$value) {?>
                             <option value="<?php echo $id?>"><?php echo $value ?></option>
@@ -27,8 +27,8 @@ $csapatok = $_SESSION['csapatok'];
                     </select>
             </div>
             <div id="away">
-                <p style="text-align: center;">Kérlek válassz csapatot!</p>
-                <select id="awayteam" name="awayteam"><?php 
+                <p style="text-align: center;">Kérlek válassz csapatot!(Vendég)</p>
+                <select id="awayteam" style="margin-left: 20%;" name="awayteam"><?php 
                         foreach($csapatok as $id=>$value) {?>
                         <option value="<?php echo $id?>"><?php echo $value ?></option>
                     <?php }?>
@@ -37,17 +37,18 @@ $csapatok = $_SESSION['csapatok'];
             <div id="searchproperties">
                 <label for="court">Choose a court:</label>
                 <select name="court" id="court" >
-                    <option value="bbc">Budapest Basketball Court</option>
-                    <option value="gybc">Győr Basketball Court</option>
-                    <option value="pbc">Pécs Basketball Court</option>
-                    <option value="vbc">Veresegyház Basketball Court</option>
+                    <option value="Budapest Basketball Aréna">Budapest Basketball Aréna</option>
+                    <option value="Győr Basketball Aréna">Győr Basketball Aréna</option>
+                    <option value="Pécs Basketball Aréna">Pécs Basketball Aréna</option>
+                    <option value="Veresegyház Basketball Aréna">Veresegyház Basketball Aréna</option>
                 </select><br>
                 <label for="date">Choose a date:</label>
-                <input type="date" name="input" id="date"></input><br>
+                <input type="date" name="date" id="date"></input><br>
                 <label for="referee">Choose a referee:</label>
                 <select name="referee" id="referee" >
-                    <option value="">Kalamár Rajmund</option>
-                    <option value="">Dr.Hetési Ferenc</option>
+                    <option value="Ferenc József">Ferenc József</option>
+                    <option value="Kis István">Kis István</option>
+                    <option value="Mezőkövesdi Péter">Mezőkövesdi Péter</option>
                 </select><br>
                 <button class="second-buttons" id="startbutton" name="startbutton" type="submit">Start</button><br>
             </div>
@@ -55,4 +56,9 @@ $csapatok = $_SESSION['csapatok'];
         </div>
     </form>
 </body>
+<script>
+    var date = new Date();
+    var currentDate = date.toISOString().substring(0,10);
+    document.getElementById('date').value = currentDate;
+</script>
 </html>

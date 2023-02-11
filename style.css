@@ -18,9 +18,9 @@ body{
     }
 #main{
     border-radius: 20px;
-    width: 60%;
+    width: 80%;
     min-height: 900px;
-    margin-left: 20%;
+    margin-left: 10%;
     margin-top: 5%;
     display: inline-block;
     box-sizing: border-box;
@@ -137,12 +137,12 @@ select:active{
     margin-bottom: 5%;
     overflow-y: auto;
 }
-#information{
+.information{
     width: 30%;
-    min-height: 150px;
-    border: 2px solid white;
+    min-height: 200px;
+    border: 2px solid #303030;
     border-radius: 20px;
-    background-color: red;
+    background-color: orange;
     color: white;
     position: absolute;
     top: 10%;
@@ -157,8 +157,8 @@ select:active{
 .indexmain{
     z-index: 1;
     background-color: #f58051;
-    width: 50%;
-    margin-left: 25%;
+    width: 80%;
+    margin-left: 10%;
     height: 650px;
     border-radius: 20px;
     margin-top: 5%;
@@ -182,4 +182,19 @@ select:active{
     border: 2px solid white;
     cursor: pointer;
     animation: pulsate 1s;
+}
+#nextbutton{
+    color: #303030;
+    width: 15%;
+    background-color: #f58051;
+    height: 30px;
+    font-weight: bold;
+    border: 2px solid #303030;
+    border-radius: 5px;
+    margin-left: 42.5%;
+    margin-bottom: 5%;
+}
+#nextbutton:hover{
+    background-color: #303030;
+    color: #f58051;
 }

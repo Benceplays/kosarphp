@@ -14,6 +14,9 @@
     if(isset($_POST['startbutton'])){
         $hometeam = $_POST['hometeam'];
         $awayteam = $_POST['awayteam'];
+        $court = $_POST['court'];
+        $date = $_POST['date'];
+        $referee = $_POST['referee'];
     }
     //Itt dol el h hova kerul a jatekos
     $homeszam = 0;
@@ -55,11 +58,13 @@
     <link rel="website icon" type="png" href="images/basketball.png">
 </head>
 <body style="background-image: url(images/wallpaper.png);">
-    <div id="information">
-        <h2 class="infotext">Fejlesztők:</h2>
-        <h2 class="infotext">Fellner Milán</h2>
-        <h2 class="infotext">Németh Csaba Bence</h2>
+    <div id="end" class="information">
+        <h1 style="text-align:center;">Eredmények</h1>
+            <p id="hometeampoint">A hazai csapat 10 pontot szerzett.</p>
+            <p id="awayteampoint">A vendég csapat 20 pontot szerzett.</p>
+        <button id="nextbutton" onclick="window.location.href='index.php'">Tovább</button>
     </div>
+    <h1 style="text-align:center;" id="time">0</h1>
     <div id="main">
         <a class="stop_button" style="text-decoration: none;" href="index.php">Vissza</a>
         <h1>Kosárlabda mérkőzés jegyzőkönyv</h1>
@@ -76,7 +81,7 @@
                         <?php }?>
                     </div> 
                 </div>
-                <button class="team-change" onclick="homesubtitueschanged(), homeplayerschanged()"><></button>
+                <button class="team-change" onclick="homesubtituteschanged(), homeplayerschanged(), homeplayerchange()"><></button>
                 <div class="players-box" style="float: right;">
                 <p style="border-bottom: 2px solid #303030; margin-bottom:1%;">Játékosok a kispadon</p>
                     <div id="homesubtitutes">
@@ -95,7 +100,7 @@
                         <option value="3">3 point</option>
                     </select><br>
                     <button class="point-buttons" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
-                    <button class="point-buttons" id="plushomepoint" name="plushomepoint" onclick="homeplayerschanged(), homesubtitueschanged(), homepointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
+                    <button class="point-buttons" id="plushomepoint" name="plushomepoint" onclick="homeplayerschanged(), homesubtituteschanged(), homepointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
                 </div>
         </div>
         <div id="away">
@@ -133,7 +138,9 @@
             </div>
         </div>
         <div class="events" id="events">
-
+            <p>Az aréna: <?php echo $court ?></p>
+            <p>A mai dátum: <?php echo $date ?></p>
+            <p>A játékvezető: <?php echo $referee ?></p>
         </div>
         <button class="stop_button" id="startbutton" name="startbutton" type="submit">Stop</button><br>
     </div>
@@ -147,7 +154,6 @@ var awayplayerid = null;
 var awaysubtituesid = null;
 var homeplayers = <?php echo json_encode($homeplayers); ?>;
 var awayplayers = <?php echo json_encode($awayplayers); ?>;
-
 
 function homepointadd(){
     if (homeplayerid != null){
@@ -172,6 +178,14 @@ function awaypointadd(){
         document.getElementById('events').appendChild(paragraph);
     }
 }
+function homeplayerchange(){
+    if(homeplayerid != null || homesubtitutesid != null){
+        var homeplayerclear = "<?php unset($homeplayers[3])?>";
+        var homesubtitutesclear = "<?php unset($homesubtitutes[2])?>";
+        var homeplayerfill = "<?php array_push($homeplayers, $homesubtitutes[2])?>";
+        var homesubtitutesfill = "<?php array_push($homesubtitutes, $homeplayers[3])?>";
+    }
+}
 //lekérdezi a radio inputokat
 function homeplayerschanged(){
     document.getElementsByName('homeplayers')
@@ -181,7 +195,7 @@ function homeplayerschanged(){
         }
     });
 }
-function homesubtitueschanged(){
+function homesubtituteschanged(){
     document.getElementsByName('homesubtitues')
     .forEach(radio => {
         if(radio.checked){
@@ -204,6 +218,27 @@ function awaysubtitueschanged(){
             awaysubtituesid = radio.value;
         }
     });
+}
+millisec();
+var timeinsec = 0;
+var maxtime = 120;//30 egy negyed
+
+function millisec(){
+        var inst = setInterval(time, 1000);
+}
+
+function time(){
+    const ido = document.getElementById('time');
+    if (timeinsec != maxtime){
+        timeinsec++;
+        ido.innerHTML = timeinsec;
+        console.log(timeinsec);
+    }
+    else{
+        document.getElementById('end').style.display = "block";
+        document.getElementById('hometeampoint').innerHTML = "A hazai csapat " + homepoints + " pontot szerzett.";
+        document.getElementById('awayteampoint').innerHTML = "A vendég csapat " + awaypoints + " pontot szerzett.";
+    }
 }
 </script>
 </html>
