@@ -55,6 +55,12 @@ $csapatok = $_SESSION['csapatok'];
         </div>
         </div>
     </form>
+    <footer>
+        <p>Fejlesztők</p>
+        <p>Fellner Milán</p>
+        <p>Németh Csaba Bence</p>
+        <p><a href="https://github.com/Benceplays/kosarphp" target="_blank">Github</a></p>
+    </footer>
 </body>
 <script>
     var date = new Date();

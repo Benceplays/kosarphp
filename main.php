@@ -56,6 +56,7 @@
     <title>Kosárlabda</title>
     <link rel="stylesheet" href="style.css">
     <link rel="website icon" type="png" href="images/basketball.png">
+    <script src="jquery-3.6.0.min.js"></script>
 </head>
 <body style="background-image: url(images/wallpaper.png);">
     <div id="end" class="information">
@@ -70,6 +71,7 @@
         <h1>Kosárlabda mérkőzés jegyzőkönyv</h1>
         <div id="h-elvalaszto"></div>
         <div id="home">
+            <h1><?php echo $hometeam?></h1>
             <h1 id="homepoints">0</h1>
             <div class="home-players">
                 <div class="players-box" style="float: left; margin-left: -1px;">
@@ -99,11 +101,12 @@
                         <option value="2">2 point</option>
                         <option value="3">3 point</option>
                     </select><br>
-                    <button class="point-buttons" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
+                    <button class="point-buttons" onclick="homeplayerschanged(), homesubtituteschanged(), homemistakes()" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
                     <button class="point-buttons" id="plushomepoint" name="plushomepoint" onclick="homeplayerschanged(), homesubtituteschanged(), homepointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
                 </div>
         </div>
         <div id="away">
+            <h1><?php echo $awayteam?></h1>
             <h1 id="awaypoints">0</h1>
             <div class="home-players">
                 <div class="players-box" id="players-box" style="float: left;">
@@ -133,57 +136,127 @@
                     <option value="2">2 point</option>
                     <option value="3">3 point</option>
                 </select><br>
-                <button class="point-buttons" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
+                <button class="point-buttons" onclick="awayplayerschanged(), awaysubtitueschanged(), awaymistakes()" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
                 <button class="point-buttons" onclick="awayplayerschanged(), awaysubtitueschanged(), awaypointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
             </div>
         </div>
         <div class="events" id="events">
-            <p>Az aréna: <?php echo $court ?></p>
-            <p>A mai dátum: <?php echo $date ?></p>
-            <p>A játékvezető: <?php echo $referee ?></p>
+            <p style="color:#303030;">Az aréna: <?php echo $court ?></p>
+            <p style="color:#303030;">A mai dátum: <?php echo $date ?></p>
+            <p style="color:#303030;">A játékvezető: <?php echo $referee ?></p>
         </div>
-        <button class="stop_button" id="startbutton" name="startbutton" type="submit">Stop</button><br>
+        <button class="stop_button" style="display: none; margin-left:40.75%;" id="startbutton" name="startbutton" type="submit" onclick="doTimer()">Continue</button>
+        <button class="stop_button" id="stopbutton" name="stopbutton" type="submit" onclick="stopTimer()">Stop</button><br>
     </div>
 </body>
 <script>
 var homepoints = 0;
 var awaypoints = 0;
 var homeplayerid = null;
-var homesubtituesid = null;
+var homesubtitutesid = null;
 var awayplayerid = null;
-var awaysubtituesid = null;
+var awaysubtitutesid = null;
 var homeplayers = <?php echo json_encode($homeplayers); ?>;
+var homesubtitutes = <?php echo json_encode($homesubtitutes); ?>;
 var awayplayers = <?php echo json_encode($awayplayers); ?>;
+var awaysubtitutes = <?php echo json_encode($awaysubtitutes); ?>;
+var jatekosok = <?php echo json_encode($játékosok); ?>;
+var minutes= 0;
+var seconds = 1;
+var time;
+
+function doTimer()   {  
+    timedCount();
+    document.getElementById('startbutton').style.display = "none";
+}
+function stopTimer() { 
+    clearTimeout(t);
+    document.getElementById('startbutton').style.display = "block";
+}
 
 function homepointadd(){
     if (homeplayerid != null){
-        var playernumber = 9;
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == homeplayers[homeplayerid]){
+                var playernumber = jatekosok[index][1];
+            }
+        }
         const point = document.getElementById('home-point').value;
         homepoints = homepoints + parseInt(point);
         document.getElementById('homepoints').innerHTML = homepoints;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = "12.35 " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont";
+        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont";
         document.getElementById('events').appendChild(paragraph);
+    console.log(seconds);
+
     }
 }
-
 function awaypointadd(){
     if (awayplayerid != null){
-        var playernumber = 9;
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){
+                var playernumber = jatekosok[index][1];
+            }
+        }
         const point = document.getElementById('away-point').value;
         awaypoints = awaypoints + parseInt(point);
         document.getElementById('awaypoints').innerHTML = awaypoints;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = "12.35 " + playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont";
+        paragraph.innerHTML = minutes + ":" + seconds + " " +  playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont";
+        document.getElementById('events').appendChild(paragraph);
+        console.log(seconds);
+        
+    }
+}
+function homemistakes(){
+    if (homeplayerid != null){
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == homeplayers[homeplayerid]){
+                var playernumber = jatekosok[index][1];
+            }
+        }
+        const point = document.getElementById('home-point').value;
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont (KIHAGYVA)" ;
+        document.getElementById('events').appendChild(paragraph);
+    }
+}
+function awaymistakes(){
+    if (awayplayerid != null){
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){
+                var playernumber = jatekosok[index][1];
+            }
+        }
+        const point = document.getElementById('away-point').value;
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont (KIHAGYVA)";
         document.getElementById('events').appendChild(paragraph);
     }
 }
 function homeplayerchange(){
     if(homeplayerid != null || homesubtitutesid != null){
-        var homeplayerclear = "<?php unset($homeplayers[3])?>";
-        var homesubtitutesclear = "<?php unset($homesubtitutes[2])?>";
-        var homeplayerfill = "<?php array_push($homeplayers, $homesubtitutes[2])?>";
-        var homesubtitutesfill = "<?php array_push($homesubtitutes, $homeplayers[3])?>";
+        homeplayers.push(homesubtitutes[homesubtitutesid]);
+        homesubtitutes.push(homeplayers[homeplayerid]);
+        console.log(homeplayers[homeplayerid]);
+        var i = 0;
+        while (i < homeplayers.length) {
+            if (homeplayers[i] == homeplayers[homeplayerid]) {
+                homeplayers.splice(i, 1);
+            } else {
+                ++i;
+            }
+        }
+        var j = 0;
+        while (j < homesubtitutes.length) {
+            if (homesubtitutes[j] === homesubtitutes[homesubtitutesid]) {
+                homesubtitutes.splice(j, 1);
+            } else {
+                ++j;
+            }
+        }
+        console.log(homeplayers);
+        console.log(homesubtitutes);
     }
 }
 //lekérdezi a radio inputokat
@@ -199,7 +272,7 @@ function homesubtituteschanged(){
     document.getElementsByName('homesubtitues')
     .forEach(radio => {
         if(radio.checked){
-            homesubtituesid = radio.value;
+            homesubtitutesid = radio.value;
         }
     });
 }
@@ -215,18 +288,18 @@ function awaysubtitueschanged(){
     document.getElementsByName('awaysubtitues')
     .forEach(radio => {
         if(radio.checked){
-            awaysubtituesid = radio.value;
+            awaysubtitutesid = radio.value;
         }
     });
 }
-millisec();
-var timeinsec = 0;
-var maxtime = 120;//30 egy negyed
-
-function millisec(){
-        var inst = setInterval(time, 1000);
-}
-
+timedCount();
+function timedCount() {
+    $("#time").html(minutes+":"+seconds+"<br>"+(((minutes / 15) | 0) +1 )+". negyed");
+    ++seconds;
+    if (seconds %60 ==0) { ++minutes; seconds=0; }
+    t=setTimeout("timedCount()",1000);
+  }
+/*
 function time(){
     const ido = document.getElementById('time');
     if (timeinsec != maxtime){
@@ -239,6 +312,6 @@ function time(){
         document.getElementById('hometeampoint').innerHTML = "A hazai csapat " + homepoints + " pontot szerzett.";
         document.getElementById('awayteampoint').innerHTML = "A vendég csapat " + awaypoints + " pontot szerzett.";
     }
-}
+}*/
 </script>
 </html>

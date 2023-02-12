@@ -159,7 +159,7 @@ select:active{
     background-color: #f58051;
     width: 80%;
     margin-left: 10%;
-    height: 650px;
+    height: 625px;
     border-radius: 20px;
     margin-top: 5%;
 }
@@ -183,6 +183,23 @@ select:active{
     cursor: pointer;
     animation: pulsate 1s;
 }
+#startbutton{
+    color: #303030;
+    border: 2px solid #303030;
+    border-radius: 5px;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 3%;
+}
+#startbutton:hover{
+    color: white;
+    background-color: #f58051;
+    border: 2px solid white;
+    cursor: pointer;
+    animation: pulsate 1s;
+}
 #nextbutton{
     color: #303030;
     width: 15%;
@@ -197,4 +214,15 @@ select:active{
 #nextbutton:hover{
     background-color: #303030;
     color: #f58051;
+}
+footer {
+    text-align: center;
+    padding: 3px;
+    background-color: #f58051;
+    color: white;
+    position: relative;
+    border-radius: 15px;
+    margin-top: 5%;
+    color: #303030;
+    text-decoration: none;
 }
