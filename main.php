@@ -238,23 +238,8 @@ function homeplayerchange(){
     if(homeplayerid != null || homesubtitutesid != null){
         homeplayers.push(homesubtitutes[homesubtitutesid]);
         homesubtitutes.push(homeplayers[homeplayerid]);
-        console.log(homeplayers[homeplayerid]);
-        var i = 0;
-        while (i < homeplayers.length) {
-            if (homeplayers[i] == homeplayers[homeplayerid]) {
-                homeplayers.splice(i, 1);
-            } else {
-                ++i;
-            }
-        }
-        var j = 0;
-        while (j < homesubtitutes.length) {
-            if (homesubtitutes[j] === homesubtitutes[homesubtitutesid]) {
-                homesubtitutes.splice(j, 1);
-            } else {
-                ++j;
-            }
-        }
+        delete homeplayers[homeplayerid];
+        delete homesubtitutes[homesubtitutesid];
         console.log(homeplayers);
         console.log(homesubtitutes);
     }
