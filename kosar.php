@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 $csapatok = array(
         "ALBA"=> "Arconic-Alba Fehérvár",
         "PAKS"=> "Atomerőmű SE",

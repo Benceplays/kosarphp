@@ -74,7 +74,7 @@
             <h1><?php echo $hometeam?></h1>
             <h1 id="homepoints">0</h1>
             <div class="home-players">
-                <div class="players-box" style="float: left; margin-left: -1px;">
+                <div class="players-box" id="home-players-box" style="float: left; margin-left: -1px;">
                 <p style="border-bottom: 2px solid #303030; margin-bottom:1%;">Játékosok a pályán</p>
                     <div id="homeplayers">
                         <?php 
@@ -84,12 +84,12 @@
                     </div> 
                 </div>
                 <button class="team-change" onclick="homesubtituteschanged(), homeplayerschanged(), homeplayerchange()"><></button>
-                <div class="players-box" style="float: right;">
+                <div class="players-box" id="home-subtitutes-box" style="float: right;">
                 <p style="border-bottom: 2px solid #303030; margin-bottom:1%;">Játékosok a kispadon</p>
                     <div id="homesubtitutes">
                         <?php 
                             foreach($homesubtitutes as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="homesubtitues"><?php echo $value ?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="homesubtitutes"><?php echo $value ?></input></br>
                         <?php }?>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                         <?php }?>
                     </div>
                 </div>
-                <button class="team-change" onclick="awayplayerschanged(), awaysubtitueschanged()"><></button>
+                <button class="team-change" onclick="awayplayerschanged(), awaysubtitueschanged(), awayplayerchange()"><></button>
                 <div class="players-box" style="float: right;">
                 <p style="border-bottom: 2px solid #303030; margin-bottom:1%;">Játékosok a kispadon</p>
                 <div id="awaysubtitutes">
@@ -164,18 +164,21 @@ var jatekosok = <?php echo json_encode($játékosok); ?>;
 var minutes= 0;
 var seconds = 1;
 var time;
+var paused = false;
 
 function doTimer()   {  
     timedCount();
     document.getElementById('startbutton').style.display = "none";
+    paused = false;
 }
 function stopTimer() { 
     clearTimeout(t);
     document.getElementById('startbutton').style.display = "block";
+    paused = true;
 }
 
 function homepointadd(){
-    if (homeplayerid != null){
+    if (homeplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){
                 var playernumber = jatekosok[index][1];
@@ -185,14 +188,14 @@ function homepointadd(){
         homepoints = homepoints + parseInt(point);
         document.getElementById('homepoints').innerHTML = homepoints;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont";
+        paragraph.innerHTML = minutes+":"+seconds + " | " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont";
         document.getElementById('events').appendChild(paragraph);
     console.log(seconds);
 
     }
 }
 function awaypointadd(){
-    if (awayplayerid != null){
+    if (awayplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == awayplayers[awayplayerid]){
                 var playernumber = jatekosok[index][1];
@@ -202,14 +205,14 @@ function awaypointadd(){
         awaypoints = awaypoints + parseInt(point);
         document.getElementById('awaypoints').innerHTML = awaypoints;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes + ":" + seconds + " " +  playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont";
+        paragraph.innerHTML = minutes + ":" + seconds + " | " +  playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont";
         document.getElementById('events').appendChild(paragraph);
         console.log(seconds);
         
     }
 }
 function homemistakes(){
-    if (homeplayerid != null){
+    if (homeplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){
                 var playernumber = jatekosok[index][1];
@@ -217,12 +220,12 @@ function homemistakes(){
         }
         const point = document.getElementById('home-point').value;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont (KIHAGYVA)" ;
+        paragraph.innerHTML = minutes+":"+seconds + " | " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont (KIHAGYVA)" ;
         document.getElementById('events').appendChild(paragraph);
     }
 }
 function awaymistakes(){
-    if (awayplayerid != null){
+    if (awayplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == awayplayers[awayplayerid]){
                 var playernumber = jatekosok[index][1];
@@ -230,18 +233,58 @@ function awaymistakes(){
         }
         const point = document.getElementById('away-point').value;
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " " + playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont (KIHAGYVA)";
+        paragraph.innerHTML = minutes+":"+seconds + " | " + playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont (KIHAGYVA)";
         document.getElementById('events').appendChild(paragraph);
     }
 }
 function homeplayerchange(){
-    if(homeplayerid != null || homesubtitutesid != null){
-        homeplayers.push(homesubtitutes[homesubtitutesid]);
-        homesubtitutes.push(homeplayers[homeplayerid]);
-        delete homeplayers[homeplayerid];
-        delete homesubtitutes[homesubtitutesid];
-        console.log(homeplayers);
-        console.log(homesubtitutes);
+    if(homeplayerid != null && homesubtitutesid != null && paused == false){
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == homeplayers[homeplayerid]){ var csplayernumber = jatekosok[index][1]; }
+        }
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == homesubtitutes[homesubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
+        }
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
+        document.getElementById('events').appendChild(paragraph);
+        //homeplayers.push(homesubtitutes[homesubtitutesid]);
+        //homesubtitutes.push(homeplayers[homeplayerid]);
+        //delete homeplayers[homeplayerid];
+        //delete homesubtitutes[homesubtitutesid];
+        var filteredhomeplayers = homeplayers.filter(function (el) {
+            return el != null;
+        });
+        var filteredhomesubtitutes = homesubtitutes.filter(function (el) {
+            return el != null;
+        });
+        console.log(filteredhomeplayers);
+        console.log(filteredhomesubtitutes);
+    }
+}
+function awayplayerchange(){
+    if(awayplayerid != null && awaysubtitutesid != null && paused == false){
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1]; }
+        }
+        for (let index = 0; index < jatekosok.length; index++) {
+            if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
+        }
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
+        document.getElementById('events').appendChild(paragraph);
+        //awayplayers.push(awaysubtitutes[awaysubtitutesid]);
+        //awaysubtitutes.push(awayplayers[awayplayerid]);
+        //delete awayplayers[awayplayerid];
+        //delete awaysubtitutes[awaysubtitutesid];
+        var filteredawayplayers = awayplayers.filter(function (el) {
+            return el != null;
+        });
+        var filteredawaysubtitutes = awaysubtitutes.filter(function (el) {
+            return el != null;
+        });
+        console.log(filteredawayplayers);
+        console.log(filteredawaysubtitutes);
     }
 }
 //lekérdezi a radio inputokat
@@ -254,7 +297,7 @@ function homeplayerschanged(){
     });
 }
 function homesubtituteschanged(){
-    document.getElementsByName('homesubtitues')
+    document.getElementsByName('homesubtitutes')
     .forEach(radio => {
         if(radio.checked){
             homesubtitutesid = radio.value;
