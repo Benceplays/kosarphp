@@ -176,7 +176,6 @@ function stopTimer() {
     document.getElementById('startbutton').style.display = "block";
     paused = true;
 }
-
 function homepointadd(){
     if (homeplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
@@ -244,23 +243,19 @@ function homeplayerchange(){
         homesubtitutes.push(homeplayers[homeplayerid]);
         delete homeplayers[homeplayerid];
         delete homesubtitutes[homesubtitutesid];
-        var filteredhomeplayers = homeplayers.filter(function (el) {
-            return el != null;
-        });
-        var filteredhomesubtitutes = homesubtitutes.filter(function (el) {
-            return el != null;
-        });
+        var filteredhomeplayers = homeplayers.filter(function (el) { return el != null; });
+        var filteredhomesubtitutes = homesubtitutes.filter(function (el) { return el != null; });
         var hazaiplayers = document.getElementById("homeplayers");
         var hazaicserek = document.getElementById("homesubtitutes");
         $(hazaiplayers).html("");
         $(hazaicserek).html("");
         for (let index = 0; index < filteredhomeplayers.length; index++) {
             const element = filteredhomeplayers[index];
-            $(hazaiplayers).append("<input type = 'radio' name = 'homeplayers' value = " + index + ">" + element + index + "</input><br>")
+            $(hazaiplayers).append("<input type = 'radio' name = 'homeplayers' value = " + homesubtitutesid + ">" + element + index + "</input><br>")
         }
         for (let index = 0; index < filteredhomesubtitutes.length; index++) {
             const element = filteredhomesubtitutes[index];
-            $(hazaicserek).append("<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + element + index + "</input><br>");
+            $(hazaicserek).append("<input type = 'radio' name = 'homesubtitutes' value = " + homeplayerid + ">" + element + index + "</input><br>");
         }
         console.log(filteredhomeplayers);
         console.log(filteredhomesubtitutes);
