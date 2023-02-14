@@ -190,8 +190,6 @@ function homepointadd(){
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes+":"+seconds + " | " + playernumber + " " + homeplayers[homeplayerid] + " (Hazai) " + point + " pont";
         document.getElementById('events').appendChild(paragraph);
-    console.log(seconds);
-
     }
 }
 function awaypointadd(){
@@ -205,8 +203,6 @@ function awaypointadd(){
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes + ":" + seconds + " | " +  playernumber + " " + awayplayers[awayplayerid] + "(Vendég) " + point + " pont";
         document.getElementById('events').appendChild(paragraph);
-        console.log(seconds);
-        
     }
 }
 function homemistakes(){
@@ -233,13 +229,14 @@ function awaymistakes(){
 }
 function homeplayerchange(){
     console.log("change");
-    if(homeplayerid != null && homesubtitutesid != null && paused == false){
+    if(homeplayerid != null && homesubtitutesid != null){
+        //a játékos számának azonosítása
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){ var csplayernumber = jatekosok[index][1]; }
         }
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homesubtitutes[homesubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
-        }
+        }//vége
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
         document.getElementById('events').appendChild(paragraph);
