@@ -238,6 +238,7 @@ function awaymistakes(){
     }
 }
 function homeplayerchange(){
+    console.log("change");
     if(homeplayerid != null && homesubtitutesid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){ var csplayernumber = jatekosok[index][1]; }
@@ -248,16 +249,28 @@ function homeplayerchange(){
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
         document.getElementById('events').appendChild(paragraph);
-        //homeplayers.push(homesubtitutes[homesubtitutesid]);
-        //homesubtitutes.push(homeplayers[homeplayerid]);
-        //delete homeplayers[homeplayerid];
-        //delete homesubtitutes[homesubtitutesid];
+        homeplayers.push(homesubtitutes[homesubtitutesid]);
+        homesubtitutes.push(homeplayers[homeplayerid]);
+        delete homeplayers[homeplayerid];
+        delete homesubtitutes[homesubtitutesid];
         var filteredhomeplayers = homeplayers.filter(function (el) {
             return el != null;
         });
         var filteredhomesubtitutes = homesubtitutes.filter(function (el) {
             return el != null;
         });
+        var hazaiplayers = document.getElementById("homeplayers");
+        var hazaicserek = document.getElementById("homesubtitutes");
+        $(hazaiplayers).html("");
+        $(hazaicserek).html("");
+        for (let index = 0; index < filteredhomeplayers.length; index++) {
+            const element = filteredhomeplayers[index];
+            $(hazaiplayers).append("<input type = 'radio' name = 'homeplayers' value = " + index + ">" + element + index + "</input><br>")
+        }
+        for (let index = 0; index < filteredhomesubtitutes.length; index++) {
+            const element = filteredhomesubtitutes[index];
+            $(hazaicserek).append("<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + element + index + "</input><br>");
+        }
         console.log(filteredhomeplayers);
         console.log(filteredhomesubtitutes);
     }
