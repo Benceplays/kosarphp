@@ -197,9 +197,7 @@ function homepointadd(){
 function awaypointadd(){
     if (awayplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == awayplayers[awayplayerid]){
-                var playernumber = jatekosok[index][1];
-            }
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var playernumber = jatekosok[index][1]; }
         }
         const point = document.getElementById('away-point').value;
         awaypoints = awaypoints + parseInt(point);
@@ -214,9 +212,7 @@ function awaypointadd(){
 function homemistakes(){
     if (homeplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == homeplayers[homeplayerid]){
-                var playernumber = jatekosok[index][1];
-            }
+            if(jatekosok[index][2] == homeplayers[homeplayerid]){ var playernumber = jatekosok[index][1]; }
         }
         const point = document.getElementById('home-point').value;
         const paragraph = document.createElement("p");
@@ -227,9 +223,7 @@ function homemistakes(){
 function awaymistakes(){
     if (awayplayerid != null && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == awayplayers[awayplayerid]){
-                var playernumber = jatekosok[index][1];
-            }
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var playernumber = jatekosok[index][1]; }
         }
         const point = document.getElementById('away-point').value;
         const paragraph = document.createElement("p");
@@ -340,19 +334,5 @@ function timedCount() {
     if (seconds %60 ==0) { ++minutes; seconds=0; }
     t=setTimeout("timedCount()",1000);
   }
-/*
-function time(){
-    const ido = document.getElementById('time');
-    if (timeinsec != maxtime){
-        timeinsec++;
-        ido.innerHTML = timeinsec;
-        console.log(timeinsec);
-    }
-    else{
-        document.getElementById('end').style.display = "block";
-        document.getElementById('hometeampoint').innerHTML = "A hazai csapat " + homepoints + " pontot szerzett.";
-        document.getElementById('awayteampoint').innerHTML = "A vendég csapat " + awaypoints + " pontot szerzett.";
-    }
-}*/
 </script>
 </html>
