@@ -249,6 +249,7 @@ function homeplayerchange(){
         var hazaicserek = document.getElementById("homesubtitutes");
         $(hazaiplayers).html("");
         $(hazaicserek).html("");
+        /*
         for (let index = 0; index < filteredhomeplayers.length; index++) {
             const element = filteredhomeplayers[index];
             $(hazaiplayers).append("<input type = 'radio' name = 'homeplayers' value = " + homesubtitutesid + ">" + element + index + "</input><br>")
@@ -256,7 +257,18 @@ function homeplayerchange(){
         for (let index = 0; index < filteredhomesubtitutes.length; index++) {
             const element = filteredhomesubtitutes[index];
             $(hazaicserek).append("<input type = 'radio' name = 'homesubtitutes' value = " + homeplayerid + ">" + element + index + "</input><br>");
+        }*/
+        //innen kezdodik
+        var s = "";
+        for (let index = 0; index < filteredhomeplayers.length; index++) {
+            s += "<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + filteredhomeplayers[index] + index + "</input><br>";         
         }
+        hazaiplayers.innerHTML = s;
+        var k = "";
+        for (let index = 0; index < filteredhomesubtitutes.length; index++) {
+            k += "<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
+        }
+        hazaicserek.innerHTML = k;
         console.log(filteredhomeplayers);
         console.log(filteredhomesubtitutes);
     }
