@@ -156,11 +156,11 @@ var homeplayerid = null;
 var homesubtitutesid = null;
 var awayplayerid = null;
 var awaysubtitutesid = null;
-var homeplayers = <?php echo json_encode($homeplayers); ?>;
-var homesubtitutes = <?php echo json_encode($homesubtitutes); ?>;
-var awayplayers = <?php echo json_encode($awayplayers); ?>;
-var awaysubtitutes = <?php echo json_encode($awaysubtitutes); ?>;
-var jatekosok = <?php echo json_encode($játékosok); ?>;
+const homeplayers = <?php echo json_encode($homeplayers); ?>;
+const homesubtitutes = <?php echo json_encode($homesubtitutes); ?>;
+const awayplayers = <?php echo json_encode($awayplayers); ?>;
+const awaysubtitutes = <?php echo json_encode($awaysubtitutes); ?>;
+const jatekosok = <?php echo json_encode($játékosok); ?>;
 var minutes= 0;
 var seconds = 1;
 var time;
@@ -240,6 +240,8 @@ function homeplayerchange(){
         paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
         document.getElementById('events').appendChild(paragraph);
         homeplayers.push(homesubtitutes[homesubtitutesid]);
+        console.log("ez a home-é: " + homesubtitutes[homesubtitutesid]);
+        console.log("ez a home masike " + homeplayers[homeplayerid]);
         homesubtitutes.push(homeplayers[homeplayerid]);
         delete homeplayers[homeplayerid];
         delete homesubtitutes[homesubtitutesid];
@@ -261,12 +263,12 @@ function homeplayerchange(){
         //innen kezdodik
         var s = "";
         for (let index = 0; index < filteredhomeplayers.length; index++) {
-            s += "<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + filteredhomeplayers[index] + index + "</input><br>";         
+            s += "<input type = 'radio' name = 'homeplayers' value = " + parseInt(index+1) + ">" + filteredhomeplayers[index] + index + "</input><br>";         
         }
         hazaiplayers.innerHTML = s;
         var k = "";
         for (let index = 0; index < filteredhomesubtitutes.length; index++) {
-            k += "<input type = 'radio' name = 'homesubtitutes' value = " + index + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
+            k += "<input type = 'radio' name = 'homesubtitutes' value = " + parseInt(index+1) + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
         }
         hazaicserek.innerHTML = k;
         console.log(filteredhomeplayers);
@@ -284,10 +286,10 @@ function awayplayerchange(){
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
         document.getElementById('events').appendChild(paragraph);
-        //awayplayers.push(awaysubtitutes[awaysubtitutesid]);
-        //awaysubtitutes.push(awayplayers[awayplayerid]);
-        //delete awayplayers[awayplayerid];
-        //delete awaysubtitutes[awaysubtitutesid];
+        awayplayers.push(awaysubtitutes[awaysubtitutesid]);
+        awaysubtitutes.push(awayplayers[awayplayerid]);
+        delete awayplayers[awayplayerid];
+        delete awaysubtitutes[awaysubtitutesid];
         var filteredawayplayers = awayplayers.filter(function (el) {
             return el != null;
         });
@@ -296,6 +298,30 @@ function awayplayerchange(){
         });
         console.log(filteredawayplayers);
         console.log(filteredawaysubtitutes);
+        var ellenfelplayers = document.getElementById("awayplayers");
+        var ellenfelcserek = document.getElementById("awaysubtitutes");
+        $(ellenfelplayers).html("");
+        $(ellenfelcserek).html("");
+        /*
+        for (let index = 0; index < filteredawayplayers.length; index++) {
+            const element = filteredawayplayers[index];
+            $(ellenfelplayers).append("<input type = 'radio' name = 'awayplayers' value = " + awaysubtitutesid + ">" + element + index + "</input><br>")
+        }
+        for (let index = 0; index < filteredawaysubtitutes.length; index++) {
+            const element = filteredawaysubtitutes[index];
+            $(ellenfelcserek).append("<input type = 'radio' name = 'awaysubtitutes' value = " + awayplayerid + ">" + element + index + "</input><br>");
+        }*/
+        //innen kezdodik
+        var s = "";
+        for (let index = 0; index < filteredawayplayers.length; index++) {
+            s += "<input type = 'radio' name = 'awayplayers' value = " + parseInt(index+1) + ">" + filteredawayplayers[index] + index + "</input><br>";         
+        }
+        ellenfelplayers.innerHTML = s;
+        var k = "";
+        for (let index = 0; index < filteredawaysubtitutes.length; index++) {
+            k += "<input type = 'radio' name = 'awaysubtitutes' value = " + parseInt(index+1) + ">" + filteredawaysubtitutes[index] + index + "</input><br>";         
+        }
+        ellenfelcserek.innerHTML = k;
     }
 }
 //lekérdezi a radio inputokat

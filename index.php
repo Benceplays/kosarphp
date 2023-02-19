@@ -50,7 +50,7 @@ $csapatok = $_SESSION['csapatok'];
                     <option value="Kis István">Kis István</option>
                     <option value="Mezőkövesdi Péter">Mezőkövesdi Péter</option>
                 </select><br>
-                <button class="second-buttons" id="startbutton" name="startbutton" type="submit">Start</button><br>
+                <button class="second-buttons" style="display: 'none'; margin-left:43%;" id="startbutton" name="startbutton" type="submit">Start</button><br>
             </div>
         </div>
         </div>
@@ -66,5 +66,13 @@ $csapatok = $_SESSION['csapatok'];
     var date = new Date();
     var currentDate = date.toISOString().substring(0,10);
     document.getElementById('date').value = currentDate;
+    setInterval(start, 100);
+    function start(){
+        const hometeam = document.getElementById('hometeam');
+        const awayteam = document.getElementById('awayteam');
+        const startbutton = document.getElementById('startbutton');
+
+        if (hometeam.value != awayteam.value){ startbutton.style.display = "block" } else{ startbutton.style.display = "none" }
+    }
 </script>
 </html>
