@@ -79,7 +79,7 @@
                     <div id="homeplayers">
                         <?php 
                             foreach($homeplayers as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="homeplayers"><?php echo $value?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="homeplayers"><?php echo $value; echo $id ?></input></br>
                         <?php }?>
                     </div> 
                 </div>
@@ -89,7 +89,7 @@
                     <div id="homesubtitutes">
                         <?php 
                             foreach($homesubtitutes as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="homesubtitutes"><?php echo $value ?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="homesubtitutes"><?php echo $value; echo $id  ?></input></br>
                         <?php }?>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                 <div id="awayplayers">
                         <?php 
                             foreach($awayplayers as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="awayplayers"><?php echo $value ?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="awayplayers"><?php echo $value; echo $id  ?></input></br>
                         <?php }?>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                 <div id="awaysubtitutes">
                         <?php 
                             foreach($awaysubtitutes as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="awaysubtitues"><?php echo $value ?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="awaysubtitues"><?php echo $value; echo $id ?></input></br>
                         <?php }?>
                     </div>
                 </div>
@@ -152,10 +152,10 @@
 <script>
 var homepoints = 0;
 var awaypoints = 0;
-var homeplayerid = null;
-var homesubtitutesid = null;
-var awayplayerid = null;
-var awaysubtitutesid = null;
+var homeplayerid = undefined;
+var homesubtitutesid = undefined;
+var awayplayerid = undefined;
+var awaysubtitutesid = undefined;
 const homeplayers = <?php echo json_encode($homeplayers); ?>;
 const homesubtitutes = <?php echo json_encode($homesubtitutes); ?>;
 const awayplayers = <?php echo json_encode($awayplayers); ?>;
@@ -176,8 +176,43 @@ function stopTimer() {
     document.getElementById('startbutton').style.display = "block";
     paused = true;
 }
+
+//lekérdezi a radio inputokat
+function homeplayerschanged(){
+    document.getElementsByName('homeplayers')
+    .forEach(radio => {
+        if(radio.checked){
+            homeplayerid = radio.value;
+        }
+    });
+}
+function homesubtituteschanged(){
+    document.getElementsByName('homesubtitutes')
+    .forEach(radio => {
+        if(radio.checked){
+            homesubtitutesid = radio.value;
+        }
+    });
+}
+function awayplayerschanged(){
+    document.getElementsByName('awayplayers')
+    .forEach(radio => {
+        if(radio.checked){
+            awayplayerid = radio.value;
+        }
+    });
+}
+function awaysubtitueschanged(){
+    document.getElementsByName('awaysubtitues')
+    .forEach(radio => {
+        if(radio.checked){
+            awaysubtitutesid = radio.value;
+        }
+    });
+}
+
 function homepointadd(){
-    if (homeplayerid != null && paused == false){
+    if (homeplayerid != undefined && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){
                 var playernumber = jatekosok[index][1];
@@ -192,7 +227,7 @@ function homepointadd(){
     }
 }
 function awaypointadd(){
-    if (awayplayerid != null && paused == false){
+    if (awayplayerid != undefined && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == awayplayers[awayplayerid]){ var playernumber = jatekosok[index][1]; }
         }
@@ -205,7 +240,7 @@ function awaypointadd(){
     }
 }
 function homemistakes(){
-    if (homeplayerid != null && paused == false){
+    if (homeplayerid != undefined && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){ var playernumber = jatekosok[index][1]; }
         }
@@ -216,7 +251,7 @@ function homemistakes(){
     }
 }
 function awaymistakes(){
-    if (awayplayerid != null && paused == false){
+    if (awayplayerid != undefined && paused == false){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == awayplayers[awayplayerid]){ var playernumber = jatekosok[index][1]; }
         }
@@ -226,9 +261,15 @@ function awaymistakes(){
         document.getElementById('events').appendChild(paragraph);
     }
 }
+function idclear(){
+    homeplayerid = undefined;
+    homesubtitutesid = undefined;
+    awayplayerid = undefined;
+    awaysubtitutesid = undefined;
+}
 function homeplayerchange(){
     console.log("change");
-    if(homeplayerid != null && homesubtitutesid != null){
+    if(homeplayerid != undefined && homesubtitutesid != undefined){
         //a játékos számának azonosítása
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homeplayers[homeplayerid]){ var csplayernumber = jatekosok[index][1]; }
@@ -237,7 +278,7 @@ function homeplayerchange(){
             if(jatekosok[index][2] == homesubtitutes[homesubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
         }//vége
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
+        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere) (Hazai)";
         document.getElementById('events').appendChild(paragraph);
         homeplayers.push(homesubtitutes[homesubtitutesid]);
         console.log("ez a home-é: " + homesubtitutes[homesubtitutesid]);
@@ -247,7 +288,7 @@ function homeplayerchange(){
         delete homesubtitutes[homesubtitutesid];
         var filteredhomeplayers = homeplayers.filter(function (el) { return el != null; });
         var filteredhomesubtitutes = homesubtitutes.filter(function (el) { return el != null; });
-        var hazaiplayers = document.getElementById("homeplayers");
+        var hazaiplayers = document.getElementById("homeplayers") ;
         var hazaicserek = document.getElementById("homesubtitutes");
         $(hazaiplayers).html("");
         $(hazaicserek).html("");
@@ -273,10 +314,11 @@ function homeplayerchange(){
         hazaicserek.innerHTML = k;
         console.log(filteredhomeplayers);
         console.log(filteredhomesubtitutes);
+        setTimeout("idclear()",100);
     }
 }
 function awayplayerchange(){
-    if(awayplayerid != null && awaysubtitutesid != null && paused == false){
+    if(awayplayerid != undefined && awaysubtitutesid != undefined){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1]; }
         }
@@ -284,7 +326,7 @@ function awayplayerchange(){
             if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
         }
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere)";
+        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere) (Vendég)";
         document.getElementById('events').appendChild(paragraph);
         awayplayers.push(awaysubtitutes[awaysubtitutesid]);
         awaysubtitutes.push(awayplayers[awayplayerid]);
@@ -322,40 +364,8 @@ function awayplayerchange(){
             k += "<input type = 'radio' name = 'awaysubtitutes' value = " + parseInt(index+1) + ">" + filteredawaysubtitutes[index] + index + "</input><br>";         
         }
         ellenfelcserek.innerHTML = k;
+        setTimeout("idclear()",100);
     }
-}
-//lekérdezi a radio inputokat
-function homeplayerschanged(){
-    document.getElementsByName('homeplayers')
-    .forEach(radio => {
-        if(radio.checked){
-            homeplayerid = radio.value;
-        }
-    });
-}
-function homesubtituteschanged(){
-    document.getElementsByName('homesubtitutes')
-    .forEach(radio => {
-        if(radio.checked){
-            homesubtitutesid = radio.value;
-        }
-    });
-}
-function awayplayerschanged(){
-    document.getElementsByName('awayplayers')
-    .forEach(radio => {
-        if(radio.checked){
-            awayplayerid = radio.value;
-        }
-    });
-}
-function awaysubtitueschanged(){
-    document.getElementsByName('awaysubtitues')
-    .forEach(radio => {
-        if(radio.checked){
-            awaysubtitutesid = radio.value;
-        }
-    });
 }
 timedCount();
 function timedCount() {
