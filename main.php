@@ -118,13 +118,13 @@
                         <?php }?>
                     </div>
                 </div>
-                <button class="team-change" onclick="awayplayerschanged(), awaysubtitueschanged(), awayplayerchange()"><></button>
+                <button class="team-change" onclick="awayplayerschanged(), awaysubtituteschanged(), awayplayerchange()"><></button>
                 <div class="players-box" style="float: right;">
                 <p style="border-bottom: 2px solid #303030; margin-bottom:1%;">Játékosok a kispadon</p>
                 <div id="awaysubtitutes">
                         <?php 
                             foreach($awaysubtitutes as $id => $value) {?>
-                                <input type="radio" value="<?php echo $id?>" name="awaysubtitues"><?php echo $value; echo $id ?></input></br>
+                                <input type="radio" value="<?php echo $id?>" name="awaysubtitutes"><?php echo $value; echo $id ?></input></br>
                         <?php }?>
                     </div>
                 </div>
@@ -136,8 +136,8 @@
                     <option value="2">2 point</option>
                     <option value="3">3 point</option>
                 </select><br>
-                <button class="point-buttons" onclick="awayplayerschanged(), awaysubtitueschanged(), awaymistakes()" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
-                <button class="point-buttons" onclick="awayplayerschanged(), awaysubtitueschanged(), awaypointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
+                <button class="point-buttons" onclick="awayplayerschanged(), awaysubtituteschanged(), awaymistakes()" style="border: 2px solid red; color: red; font-size: 25px; margin-top: 2.5%;">X</button>
+                <button class="point-buttons" onclick="awayplayerschanged(), awaysubtituteschanged(), awaypointadd()" style="border: 2px solid green; color: green; font-size: 21.5px; margin-top: 2.5%; margin-left: 5%;">✓</button>
             </div>
         </div>
         <div class="events" id="events">
@@ -206,8 +206,8 @@ function awayplayerschanged(){
         }
     });
 }
-function awaysubtitueschanged(){
-    document.getElementsByName('awaysubtitues')
+function awaysubtituteschanged(){
+    document.getElementsByName('awaysubtitutes')
     .forEach(radio => {
         if(radio.checked){
             awaysubtitutesid = radio.value;
@@ -272,7 +272,6 @@ function idclear(){
     awaysubtitutesid = undefined;
 }
 function homeplayerchange(){
-    console.log("change");
     if(homeplayerid != undefined && homesubtitutesid != undefined){
         //a játékos számának azonosítása
         for (let index = 0; index < jatekosok.length; index++) {
@@ -300,8 +299,6 @@ function homeplayerchange(){
             delete filteredhomesubtitutes[homesubtitutesid];
 
             
-            console.log("HOME : " + filteredhomeplayers)
-            console.log("CSERE : " + filteredhomesubtitutes)
             filteredhomeplayers = filteredhomeplayers.filter(function (el) { return el != null; });
             filteredhomesubtitutes = filteredhomesubtitutes.filter(function (el) { return el != null; });
         }
@@ -333,21 +330,17 @@ function homeplayerchange(){
             k += "<input type = 'radio' name = 'homesubtitutes' value = " + parseInt(index) + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
         }
         hazaicserek.innerHTML = k;
-        console.log(filteredhomeplayers);
-        console.log(filteredhomesubtitutes);
     }
 }
 function awayplayerchange(){
-    console.log("change");
     if(awayplayerid != undefined && awaysubtitutesid != undefined){
         //a játékos számának azonosítása
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1];}
+            
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1];break;}
         }
         for (let index = 0; index < jatekosok.length; index++) {
-            console.log("JO AZ ID?" + awaysubtitutes)
-            if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; console.log("KAKI: " + csplayernumber)}
-            break;
+            if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; break;}
         }//vége
 
         const paragraph = document.createElement("p");
@@ -399,6 +392,7 @@ function awayplayerchange(){
             k += "<input type = 'radio' name = 'awaysubtitutes' value = " + parseInt(index) + ">" + filteredawaysubtitutes[index] + index + "</input><br>";         
         }
         hazaicserek.innerHTML = k;
+  
     }
 }
 timedCount();
