@@ -35,22 +35,22 @@ $csapatok = $_SESSION['csapatok'];
                 </select>
             </div>
             <div id="searchproperties">
-                <label for="court">Choose a court:</label>
+                <label for="court">Válassz egy arénát:</label>
                 <select name="court" id="court" >
                     <option value="Budapest Basketball Aréna">Budapest Basketball Aréna</option>
                     <option value="Győr Basketball Aréna">Győr Basketball Aréna</option>
                     <option value="Pécs Basketball Aréna">Pécs Basketball Aréna</option>
                     <option value="Veresegyház Basketball Aréna">Veresegyház Basketball Aréna</option>
                 </select><br>
-                <label for="date">Choose a date:</label>
+                <label for="date">Válassz dátumot:</label>
                 <input type="date" name="date" id="date"></input><br>
-                <label for="referee">Choose a referee:</label>
+                <label for="referee">Válassz játékvezetőt:</label>
                 <select name="referee" id="referee" >
                     <option value="Ferenc József">Ferenc József</option>
                     <option value="Kis István">Kis István</option>
                     <option value="Mezőkövesdi Péter">Mezőkövesdi Péter</option>
                 </select><br>
-                <button class="second-buttons" style="display: 'none'; margin-left:43%;" id="startbutton" name="startbutton" type="submit">Start</button><br>
+                <button class="second-buttons" style="display: 'none'; margin-left:43%;" id="startbutton" name="startbutton" type="submit">Indítás</button><br>
             </div>
         </div>
         </div>
