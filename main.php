@@ -165,6 +165,10 @@ var minutes= 0;
 var seconds = 1;
 var time;
 var paused = false;
+var filteredhomeplayers = [];
+var filteredhomesubtitutes = [];
+var filteredawayplayers = [];
+var filteredawaysubtitutes = [];
 
 function doTimer()   {  
     timedCount();
@@ -277,17 +281,34 @@ function homeplayerchange(){
         for (let index = 0; index < jatekosok.length; index++) {
             if(jatekosok[index][2] == homesubtitutes[homesubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
         }//vége
+
         const paragraph = document.createElement("p");
         paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere) (Hazai)";
         document.getElementById('events').appendChild(paragraph);
-        homeplayers.push(homesubtitutes[homesubtitutesid]);
-        console.log("ez a home-é: " + homesubtitutes[homesubtitutesid]);
-        console.log("ez a home masike " + homeplayers[homeplayerid]);
-        homesubtitutes.push(homeplayers[homeplayerid]);
-        delete homeplayers[homeplayerid];
-        delete homesubtitutes[homesubtitutesid];
-        var filteredhomeplayers = homeplayers.filter(function (el) { return el != null; });
-        var filteredhomesubtitutes = homesubtitutes.filter(function (el) { return el != null; });
+        if (filteredhomeplayers.length === 0){
+            homeplayers.push(homesubtitutes[homesubtitutesid]);
+            homesubtitutes.push(homeplayers[homeplayerid]);
+            delete homeplayers[homeplayerid];
+            delete homesubtitutes[homesubtitutesid];
+
+            filteredhomeplayers = homeplayers.filter(function (el) { return el != null; });
+            filteredhomesubtitutes = homesubtitutes.filter(function (el) { return el != null; });
+        }else{
+            filteredhomeplayers.push(filteredhomesubtitutes[homesubtitutesid]);
+            filteredhomesubtitutes.push(filteredhomeplayers[homeplayerid]);
+            delete filteredhomeplayers[homeplayerid];
+            delete filteredhomesubtitutes[homesubtitutesid];
+
+            
+            console.log("HOME : " + filteredhomeplayers)
+            console.log("CSERE : " + filteredhomesubtitutes)
+            filteredhomeplayers = filteredhomeplayers.filter(function (el) { return el != null; });
+            filteredhomesubtitutes = filteredhomesubtitutes.filter(function (el) { return el != null; });
+        }
+
+        
+        
+       
         var hazaiplayers = document.getElementById("homeplayers") ;
         var hazaicserek = document.getElementById("homesubtitutes");
         $(hazaiplayers).html("");
@@ -304,67 +325,80 @@ function homeplayerchange(){
         //innen kezdodik
         var s = "";
         for (let index = 0; index < filteredhomeplayers.length; index++) {
-            s += "<input type = 'radio' name = 'homeplayers' value = " + parseInt(index+1) + ">" + filteredhomeplayers[index] + index + "</input><br>";         
+            s += "<input type = 'radio' name = 'homeplayers' value = " + parseInt(index) + ">" + filteredhomeplayers[index] + index + "</input><br>";         
         }
         hazaiplayers.innerHTML = s;
         var k = "";
         for (let index = 0; index < filteredhomesubtitutes.length; index++) {
-            k += "<input type = 'radio' name = 'homesubtitutes' value = " + parseInt(index+1) + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
+            k += "<input type = 'radio' name = 'homesubtitutes' value = " + parseInt(index) + ">" + filteredhomesubtitutes[index] + index + "</input><br>";         
         }
         hazaicserek.innerHTML = k;
         console.log(filteredhomeplayers);
         console.log(filteredhomesubtitutes);
-        setTimeout("idclear()",100);
     }
 }
 function awayplayerchange(){
+    console.log("change");
     if(awayplayerid != undefined && awaysubtitutesid != undefined){
+        //a játékos számának azonosítása
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1]; }
+            if(jatekosok[index][2] == awayplayers[awayplayerid]){ var csplayernumber = jatekosok[index][1];}
         }
         for (let index = 0; index < jatekosok.length; index++) {
-            if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; }
-        }
+            console.log("JO AZ ID?" + awaysubtitutes)
+            if(jatekosok[index][2] == awaysubtitutes[awaysubtitutesid]){ var subtitutesnumber = jatekosok[index][1]; console.log("KAKI: " + csplayernumber)}
+            break;
+        }//vége
+
         const paragraph = document.createElement("p");
-        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere) (Vendég)";
+        paragraph.innerHTML = minutes+":"+seconds + " | " + csplayernumber + "=>" + subtitutesnumber + " (Csere) (Hazai)";
         document.getElementById('events').appendChild(paragraph);
-        awayplayers.push(awaysubtitutes[awaysubtitutesid]);
-        awaysubtitutes.push(awayplayers[awayplayerid]);
-        delete awayplayers[awayplayerid];
-        delete awaysubtitutes[awaysubtitutesid];
-        var filteredawayplayers = awayplayers.filter(function (el) {
-            return el != null;
-        });
-        var filteredawaysubtitutes = awaysubtitutes.filter(function (el) {
-            return el != null;
-        });
-        console.log(filteredawayplayers);
-        console.log(filteredawaysubtitutes);
-        var ellenfelplayers = document.getElementById("awayplayers");
-        var ellenfelcserek = document.getElementById("awaysubtitutes");
-        $(ellenfelplayers).html("");
-        $(ellenfelcserek).html("");
+        if (filteredawayplayers.length === 0){
+            awayplayers.push(awaysubtitutes[awaysubtitutesid]);
+            awaysubtitutes.push(awayplayers[awayplayerid]);
+            delete awayplayers[awayplayerid];
+            delete awaysubtitutes[awaysubtitutesid];
+
+            filteredawayplayers = awayplayers.filter(function (el) { return el != null; });
+            filteredawaysubtitutes = awaysubtitutes.filter(function (el) { return el != null; });
+        }else{
+            filteredawayplayers.push(filteredawaysubtitutes[awaysubtitutesid]);
+            filteredawaysubtitutes.push(filteredawayplayers[awayplayerid]);
+            delete filteredawayplayers[awayplayerid];
+            delete filteredawaysubtitutes[awaysubtitutesid];
+
+            
+            filteredawayplayers = filteredawayplayers.filter(function (el) { return el != null; });
+            filteredawaysubtitutes = filteredawaysubtitutes.filter(function (el) { return el != null; });
+        }
+
+        
+        
+       
+        var hazaiplayers = document.getElementById("awayplayers") ;
+        var hazaicserek = document.getElementById("awaysubtitutes");
+        $(hazaiplayers).html("");
+        $(hazaicserek).html("");
         /*
         for (let index = 0; index < filteredawayplayers.length; index++) {
             const element = filteredawayplayers[index];
-            $(ellenfelplayers).append("<input type = 'radio' name = 'awayplayers' value = " + awaysubtitutesid + ">" + element + index + "</input><br>")
+            $(hazaiplayers).append("<input type = 'radio' name = 'awayplayers' value = " + awaysubtitutesid + ">" + element + index + "</input><br>")
         }
         for (let index = 0; index < filteredawaysubtitutes.length; index++) {
             const element = filteredawaysubtitutes[index];
-            $(ellenfelcserek).append("<input type = 'radio' name = 'awaysubtitutes' value = " + awayplayerid + ">" + element + index + "</input><br>");
+            $(hazaicserek).append("<input type = 'radio' name = 'awaysubtitutes' value = " + awayplayerid + ">" + element + index + "</input><br>");
         }*/
         //innen kezdodik
         var s = "";
         for (let index = 0; index < filteredawayplayers.length; index++) {
-            s += "<input type = 'radio' name = 'awayplayers' value = " + parseInt(index+1) + ">" + filteredawayplayers[index] + index + "</input><br>";         
+            s += "<input type = 'radio' name = 'awayplayers' value = " + parseInt(index) + ">" + filteredawayplayers[index] + index + "</input><br>";         
         }
-        ellenfelplayers.innerHTML = s;
+        hazaiplayers.innerHTML = s;
         var k = "";
         for (let index = 0; index < filteredawaysubtitutes.length; index++) {
-            k += "<input type = 'radio' name = 'awaysubtitutes' value = " + parseInt(index+1) + ">" + filteredawaysubtitutes[index] + index + "</input><br>";         
+            k += "<input type = 'radio' name = 'awaysubtitutes' value = " + parseInt(index) + ">" + filteredawaysubtitutes[index] + index + "</input><br>";         
         }
-        ellenfelcserek.innerHTML = k;
-        setTimeout("idclear()",100);
+        hazaicserek.innerHTML = k;
     }
 }
 timedCount();
